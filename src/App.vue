@@ -20,6 +20,9 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.5;
+  font-size: 1rem;
+  background-color: FloralWhite;
+  overflow-y: scroll;
 }
 
 :root {
