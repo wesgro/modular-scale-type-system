@@ -1,0 +1,21 @@
+@use "sass:map";
+
+$ratio: 1.618;
+$root-font-size: 1rem;
+$modularscale-threads: (
+  headings: (
+    ratio: 1.618,
+    base: 1.3rem,
+  ),
+  sub-headings: (
+    ratio: 1.125,
+    base: 1.2rem,
+  ),
+);
+
+$modularscale-config: (
+  base: $root-font-size,
+  ratio: $ratio,
+  headings: map.get($modularscale-threads, headings),
+  sub-headings: map.get($modularscale-threads, sub-headings),
+);

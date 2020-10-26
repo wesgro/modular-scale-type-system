@@ -1,0 +1,47 @@
+@use "sass:map";
+@use "../settings/settings.typography" as type;
+@use '~modularscale-sass/stylesheets/modularscale' with (
+    $modularscale: type.$modularscale-config
+);
+@forward '~modularscale-sass/stylesheets/modularscale';
+
+@mixin generate-css-variables($scales-to-generate: 6) {
+  @each $scale-name, $scale-values in type.$modularscale-threads {
+    --#{$scale-name}-scale: #{map.get($scale-values, ratio)};
+    --size-#{$scale-name}--0: #{map.get($scale-values, base)};
+    @for $i from 1 through $scales-to-generate {
+      $prev-size: $i - 1;
+      $css-var-previous: "--size-#{$scale-name}--#{$prev-size}";
+      $css-var-current: "--size-#{$scale-name}--#{$i}";
+      #{$css-var-current}: calc(
+        var(#{$css-var-previous}) * var(--#{$scale-name}-scale)
+      );
+    }
+  }
+}
+
+@mixin generate-heading-styles() {
+  .headings {
+    line-height: 1.2;
+  }
+
+  .sub-headings {
+    line-height: 1.4;
+  }
+
+  $heading-to-scale: (
+    1: 5,
+    2: 4,
+    3: 3,
+    4: 2,
+    5: 1,
+    6: 0,
+  );
+  @each $scale-name, $scale-values in type.$modularscale-threads {
+    @each $heading, $scale in $heading-to-scale {
+      .#{$scale-name}--#{$heading} {
+        font-size: var(--size-#{$scale-name}--#{$scale});
+      }
+    }
+  }
+}
